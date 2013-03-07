@@ -1,7 +1,7 @@
 #webrtc-conference
 ==================
 
-##Run
+##Instructions to run the app
 
 ```bash 
 git clone git@github.com:philippd/webrtc-conference.git
@@ -22,6 +22,3 @@ bower update
 ```bash 
 grunt server
 ```
-
-Developed by:
-    [@philippd](https://github.com/philippd)
