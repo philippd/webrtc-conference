@@ -1,16 +1,22 @@
 #webrtc-conference
 ==================
 
+##Run
+
 ```bash 
 git clone git@github.com:philippd/webrtc-conference.git
 ```
 
-```bash 
+```bash
 cd webrtc-conference
 ```
 
 ```bash 
 npm install
+```
+
+```bash 
+bower update
 ```
 
 ```bash 
