@@ -1,1 +1,13 @@
-/* Will be compiled down to a single stylesheet with your sass files */
+.container {
+  width: 1200px;
+}
+
+.content {
+  padding-top: 50px;
+}
+
+.container .hero-unit {
+  width: 650px;
+  margin-right: auto;
+  margin-left: auto;
+}

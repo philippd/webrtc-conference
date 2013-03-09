@@ -4,11 +4,12 @@ angular.module('webrtcConferenceApp', [])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        templateUrl: 'views/home.html',
+        controller: 'HomeCtrl'
       })
       .when('/room', {
-        templateUrl: 'views/room.html'
+        templateUrl: 'views/room.html',
+        controller: 'RoomCtrl'
       })
       .otherwise({
         redirectTo: '/'
