@@ -20,5 +20,5 @@ bower update
 ```
 
 ```bash 
-grunt server
+node server/server.js
 ```
