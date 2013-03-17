@@ -2,10 +2,11 @@
 
 // Modules
 
-var express = require('express'),
-  api = require('./api');
-
+var express = require('express');
+var api = require('./api');
 var app = module.exports = express();
+var server = require('http').createServer(app);
+var webRTC = require('webrtc.io').listen(server);
 
 // Configuration
 
@@ -26,9 +27,15 @@ app.get('*', function (req, res) {
   res.redirect('index.html');
 });
 
+// WebRTC
+
+webRTC.rtc.on('connect', function(rtc) {
+  console.log('Client connected!');
+});
+
 // Start server
 
 var port = process.env.PORT || 3000;
-app.listen(port, function(){
+server.listen(port, function () {
   console.log('Express server listening on port %d in %s mode', this.address().port, app.settings.env);
 });
