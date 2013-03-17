@@ -1,7 +1,9 @@
 #webrtc-conference
 ==================
 
-##Instructions to run the app
+http://webrtc-conference.herokuapp.com
+
+##Run
 
 ```bash 
 git clone git@github.com:philippd/webrtc-conference.git
@@ -20,5 +22,15 @@ bower update
 ```
 
 ```bash 
+grunt
+```
+
+```bash 
 node server/server.js
+```
+
+##Deploy
+```bash 
+heroku git:remote -a webrtc-conference
+git push heroku master
 ```
