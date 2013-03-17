@@ -1,7 +1,7 @@
 #webrtc-conference
 ==================
 
-http://webrtc-conference.herokuapp.com
+http://webrtc.no-ip.org/
 
 ##Run
 
