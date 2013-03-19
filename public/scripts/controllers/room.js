@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('webrtcConferenceApp')
-.controller('RoomCtrl', function ($scope, WebRtcService) {
+.controller('RoomCtrl', function ($scope, $routeParams, WebRtcService) {
+  console.log('initializing with route params: ' + $routeParams.roomId);
   var $ = window.$;
 
-  WebRtcService.connect(document.getElementById('you'), '');
+  WebRtcService.connect(document.getElementById('you'), decodeURIComponent($routeParams.roomId));
 
   WebRtcService.onRemoteConnect(function (stream, socketId) {
     console.log('Adding remote stream ' + socketId);

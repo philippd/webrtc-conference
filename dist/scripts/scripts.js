@@ -286,33 +286,50 @@ var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || nav
   });
 }.call(this));
 'use strict';
-angular.module('webrtcConferenceApp', []).config(function ($routeProvider) {
+angular.module('webrtcConferenceApp', ['ui.bootstrap']).config(function ($routeProvider, $locationProvider) {
   $routeProvider.when('/', {
-    templateUrl: 'views/home.html',
+    templateUrl: '/views/home.html',
     controller: 'HomeCtrl'
-  }).when('/room', {
-    templateUrl: 'views/room.html',
+  }).when('/room/:roomId', {
+    templateUrl: '/views/room.html',
     controller: 'RoomCtrl'
   }).otherwise({ redirectTo: '/' });
+  $locationProvider.html5Mode(true);
 });
 'use strict';
 angular.module('webrtcConferenceApp').controller('HomeCtrl', [
   '$scope',
   '$http',
-  function ($scope, $http) {
+  'DialogService',
+  function ($scope, $http, DialogService) {
     $scope.rooms = [];
     $http.get('/api/rooms').success(function (data) {
       $scope.rooms = data;
     });
+    $scope.createRoom = function () {
+      DialogService.createRoomDialog();
+    };
+  }
+]);
+'use strict';
+angular.module('webrtcConferenceApp').controller('NewRoomDialogController', [
+  '$scope',
+  'dialog',
+  function ($scope, dialog) {
+    $scope.createRoom = function (roomName) {
+      dialog.close(roomName);
+    };
   }
 ]);
 'use strict';
 angular.module('webrtcConferenceApp').controller('RoomCtrl', [
   '$scope',
+  '$routeParams',
   'WebRtcService',
-  function ($scope, WebRtcService) {
+  function ($scope, $routeParams, WebRtcService) {
+    console.log('initializing with route params: ' + $routeParams.roomId);
     var $ = window.$;
-    WebRtcService.connect(document.getElementById('you'), '');
+    WebRtcService.connect(document.getElementById('you'), decodeURIComponent($routeParams.roomId));
     WebRtcService.onRemoteConnect(function (stream, socketId) {
       console.log('Adding remote stream ' + socketId);
       $('#videos').append($('<video id="' + socketId + '" autoplay></video>'));
@@ -325,15 +342,21 @@ angular.module('webrtcConferenceApp').controller('RoomCtrl', [
   }
 ]);
 'use strict';
-angular.module('webrtcConferenceApp').directive('navigation', [function () {
+angular.module('webrtcConferenceApp').directive('navigation', [
+  'DialogService',
+  function (DialogService) {
     return {
       templateUrl: 'views/directives/navigation.html',
       restrict: 'EA',
       replace: true,
       link: function postLink(scope, element, attrs) {
+        scope.createRoom = function () {
+          DialogService.createRoomDialog();
+        };
       }
     };
-  }]);
+  }
+]);
 'use strict';
 angular.module('webrtcConferenceApp').factory('WebRtcService', [function () {
     var PeerConnection = window.PeerConnection || window.webkitPeerConnection00 || window.webkitRTCPeerConnection;
@@ -373,3 +396,28 @@ angular.module('webrtcConferenceApp').factory('WebRtcService', [function () {
       }
     };
   }]);
+'use strict';
+angular.module('webrtcConferenceApp').factory('DialogService', [
+  '$dialog',
+  '$location',
+  function ($dialog, $location) {
+    return {
+      createRoomDialog: function () {
+        var dialogOpts = {
+            backdrop: true,
+            keyboard: true,
+            backdropClick: true,
+            dialogFade: true,
+            templateUrl: '/views/new-room-dialog.html',
+            controller: 'NewRoomDialogController'
+          };
+        var dialog = $dialog.dialog(dialogOpts);
+        dialog.open().then(function (roomName) {
+          if (roomName) {
+            $location.path('room/' + encodeURIComponent(roomName));
+          }
+        });
+      }
+    };
+  }
+]);

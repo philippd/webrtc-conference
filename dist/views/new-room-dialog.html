@@ -1,0 +1,11 @@
+<div class="modal-header">
+  <h1>Create a room</h1>
+</div>
+<div class="modal-body">
+  <form ng-submit="createRoom(roomName)">
+    <div class="input-append">
+      <input class="span4" id="appendedInputButton" type="text" placeholder="Name" ng-model="roomName">
+      <button class="btn" type="button" ng-click="createRoom(roomName)">Go!</button>
+    </div>
+  </form>
+</div>

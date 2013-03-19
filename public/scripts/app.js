@@ -1,17 +1,18 @@
 'use strict';
 
-angular.module('webrtcConferenceApp', [])
-  .config(function ($routeProvider) {
+angular.module('webrtcConferenceApp', ['ui.bootstrap'])
+  .config(function ($routeProvider, $locationProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/home.html',
+        templateUrl: '/views/home.html',
         controller: 'HomeCtrl'
       })
-      .when('/room', {
-        templateUrl: 'views/room.html',
+      .when('/room/:roomId', {
+        templateUrl: '/views/room.html',
         controller: 'RoomCtrl'
       })
       .otherwise({
         redirectTo: '/'
       });
+    $locationProvider.html5Mode(true);
   });

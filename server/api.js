@@ -1,10 +1,17 @@
 'use strict';
 
+var webRTC;
+
+exports.init = function (rtc) {
+  webRTC = rtc;
+};
+
 exports.rooms = function (req, res) {
-  console.log('returning some fake rooms...');
-  res.json([
-      {name: 'Room Bla Bla 1'},
-      {name: 'My Second Room'},
-      {name: 'Testing web rtc!'}
-    ]);
+  console.log('Returning rooms...');
+
+  var rooms = [];
+  for (var key in webRTC.rtc.rooms) {
+    rooms.push({name: key});
+  }
+  res.json(rooms);
 };

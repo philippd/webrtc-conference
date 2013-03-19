@@ -3,10 +3,11 @@
 // Modules
 
 var express = require('express');
-var api = require('./api');
 var app = module.exports = express();
 var server = require('http').createServer(app);
 var webRTC = require('webrtc.io').listen(server);
+var api = require('./api');
+api.init(webRTC);
 
 // Configuration
 
@@ -26,8 +27,6 @@ app.get('/api/rooms', api.rooms);
 app.get('*', function (req, res) {
   res.redirect('index.html');
 });
-
-// WebRTC
 
 webRTC.rtc.on('connect', function(rtc) {
   console.log('Client connected!');
